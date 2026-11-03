@@ -1,0 +1,10 @@
+.history/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+insurance_agent_frontend/node_modules/
+insurance_agent_frontend/dist/
+
+insurance_agent_ai_backend/data/customers_runtime_clean.csv
