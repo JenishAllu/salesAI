@@ -1,0 +1,41 @@
+agent_id,agent_name,agent_level,specializations,supported_languages,experience_years,availability_status,is_online,current_workload,max_workload,assigned_customer_count,performance_rating
+AG101,Rahul Sharma,Intern Agent,Health,"English,Hindi,Kannada",0.5,Offline,False,4,4,20,4.2
+AG102,Priya Patel,Intern Agent,Life,"English,Telugu",0.9,Available,True,1,4,25,4.3
+AG103,Venkat Rao,Intern Agent,Vehicle,"English,Tamil",1.3,Available,True,2,4,30,4.4
+AG104,Lakshmi Devi,Intern Agent,General,"English,Kannada,Gujarati",1.7,Available,True,0,4,35,4.5
+AG105,Amit Verma,Intern Agent,Health,"English,Marathi",0.5,Available,True,1,4,40,4.6
+AG106,Sneha Kulkarni,Intern Agent,Life,"English,Bengali",0.9,In Call,True,4,4,45,4.7
+AG107,Suresh Reddy,Intern Agent,"Health,Life","English,Telugu",1.3,Available,True,0,4,50,4.8
+AG108,Deepa Nair,Intern Agent,General,"English,Hindi",1.7,Offline,False,4,4,55,4.9
+AG109,Arjun Sen,Intern Agent,Health,"English,Telugu",0.5,Available,True,2,4,60,4.2
+AG110,Fatima Sheikh,Intern Agent,Life,"English,Tamil,Bengali",0.9,Available,True,0,4,65,4.3
+AG111,Kavita Joshi,Intern Agent,Vehicle,"English,Kannada",1.3,In Call,True,4,4,70,4.4
+AG112,Rohan Mehta,Intern Agent,General,"English,Marathi",1.7,Available,True,2,4,75,4.5
+AG113,Ananya Das,Intern Agent,Health,"English,Bengali,Telugu",0.5,Available,True,0,4,80,4.6
+AG114,Manish Gupta,Intern Agent,Life,"English,Gujarati",0.9,Available,True,1,4,85,4.7
+AG115,Pooja Hegde,Expert Agent,"Vehicle,General","English,Hindi",3.5,Offline,False,5,5,90,4.8
+AG116,Vikram Malhotra,Expert Agent,"General,Health","English,Telugu,Marathi",4.0,In Call,True,5,5,95,4.9
+AG117,Swati Deshmukh,Expert Agent,"Health,Life","English,Tamil",4.5,Available,True,0,5,100,4.2
+AG118,Naveen Kumar,Expert Agent,"Life,Vehicle","English,Kannada",5.0,Available,True,1,5,105,4.3
+AG119,Divya Menon,Expert Agent,"Vehicle,General","English,Marathi,Hindi",2.5,Available,True,2,5,110,4.4
+AG120,Gaurav Bhatt,Expert Agent,"General,Health","English,Bengali",3.0,Available,True,3,5,115,4.5
+AG121,Meera Krishnan,Expert Agent,"Health,Life","English,Gujarati",3.5,In Call,True,5,5,120,4.6
+AG122,Siddharth Roy,Expert Agent,"Life,Vehicle","English,Hindi,Kannada",4.0,Offline,False,5,5,125,4.7
+AG123,Bhavna Mishra,Expert Agent,"Vehicle,General","English,Telugu",4.5,Available,True,2,5,130,4.8
+AG124,Harish Iyer,Expert Agent,"General,Health","English,Tamil",5.0,Available,True,3,5,135,4.9
+AG125,Shreya Bannerjee,Expert Agent,"Health,Life","English,Kannada,Gujarati",2.5,Available,True,0,5,140,4.2
+AG126,Rajeshwari Rao,Expert Agent,"Life,Vehicle","English,Marathi",3.0,In Call,True,5,5,145,4.3
+AG127,Karthik Raja,Expert Agent,"Life,Health","English,Telugu",4.2,Available,True,2,5,150,4.4
+AG128,Sunita Agarwal,Expert Agent,"General,Health","English,Gujarati,Tamil",4.0,Available,True,3,5,155,4.5
+AG129,Tarun Choudhary,Expert Agent,"Health,Life","English,Hindi",4.5,Offline,False,5,5,160,4.6
+AG130,Gayatri Pillai,Expert Agent,"Life,Vehicle","English,Telugu",5.0,Available,True,1,5,165,4.7
+AG131,Pradeep Nair,Senior Expert Agent,"Vehicle,General,General","English,Tamil,Bengali",11.5,In Call,True,6,6,170,4.8
+AG132,Archana Singh,Senior Expert Agent,"General,Health,General","English,Kannada",12.5,Available,True,1,6,175,4.9
+AG133,Vijay Anand,Senior Expert Agent,"Health,Life,General","English,Marathi",5.5,Available,True,2,6,180,4.2
+AG134,Pallavi Kulkarni,Senior Expert Agent,"Life,Vehicle,General","English,Bengali,Telugu",6.5,Available,True,3,6,185,4.3
+AG135,Mohammad Aslam,Senior Expert Agent,"Vehicle,General,General","English,Gujarati",7.5,Available,True,4,6,190,4.4
+AG136,Geetha Reddy,Senior Expert Agent,"General,Health,General","English,Hindi",8.5,Offline,False,6,6,195,4.5
+AG137,Ashok Pandey,Senior Expert Agent,"Health,Life,General","English,Telugu,Marathi",9.5,Available,True,1,6,200,4.6
+AG138,Neelam Saxena,Senior Expert Agent,"Life,Vehicle,General","English,Tamil",10.5,Available,True,2,6,205,4.7
+AG139,Balaji Natarajan,Senior Expert Agent,"Vehicle,General,General","English,Kannada",11.5,Available,True,3,6,210,4.8
+AG140,Vandana Seth,Senior Expert Agent,"General,Health,General","English,Marathi,Hindi",12.5,Available,True,4,6,215,4.9

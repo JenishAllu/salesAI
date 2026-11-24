@@ -1,0 +1,87 @@
+{
+  "dataset_type": "Synthetic Customer Routing Dataset (PolicyBuzar)",
+  "total_rows": 100000,
+  "num_columns": 36,
+  "columns": [
+    "customer_id",
+    "age",
+    "monthly_income",
+    "credit_score",
+    "marital_status",
+    "dependents",
+    "existing_policy",
+    "selected_category",
+    "health_page_views",
+    "life_page_views",
+    "vehicle_page_views",
+    "general_page_views",
+    "health_time",
+    "life_time",
+    "vehicle_time",
+    "general_time",
+    "total_sessions",
+    "return_visits",
+    "quote_requests",
+    "callback_requests",
+    "chat_count",
+    "doubts",
+    "questions",
+    "risk_score",
+    "previous_agent_failed",
+    "language",
+    "customer_message",
+    "conversation_intent",
+    "insurance_domain",
+    "engagement_score",
+    "engagement_level",
+    "willingness_score",
+    "purchase_willingness",
+    "complexity_score",
+    "customer_complexity",
+    "required_agent_level"
+  ],
+  "duplicate_records": 0,
+  "missing_values": {
+    "monthly_income": 1537,
+    "credit_score": 1510,
+    "chat_count": 1508
+  },
+  "class_distributions": {
+    "insurance_domain": {
+      "Health": 42278,
+      "Life": 32181,
+      "Vehicle": 18742,
+      "General": 6799
+    },
+    "engagement_level": {
+      "Medium": 43665,
+      "High": 41385,
+      "Low": 14950
+    },
+    "purchase_willingness": {
+      "High": 44558,
+      "Low": 29995,
+      "Medium": 25447
+    },
+    "customer_complexity": {
+      "Low": 40794,
+      "Medium": 39223,
+      "High": 19983
+    },
+    "conversation_intent": {
+      "Needs guidance": 22314,
+      "Ready to buy": 20203,
+      "Price objection": 17911,
+      "Interested": 15446,
+      "Trust objection": 9194,
+      "Unwilling": 5023,
+      "General enquiry": 4982,
+      "No message": 4927
+    },
+    "required_agent_level": {
+      "Expert Agent": 51713,
+      "Senior Expert Agent": 24509,
+      "Intern Agent": 23778
+    }
+  }
+}

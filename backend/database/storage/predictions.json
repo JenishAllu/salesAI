@@ -1,0 +1,42 @@
+[
+  {
+    "customer": {
+      "age": 32,
+      "monthly_income": 65000,
+      "credit_score": 720,
+      "marital_status": "Married",
+      "dependents": 1,
+      "existing_policy": false,
+      "selected_category": "Health",
+      "health_page_views": 4,
+      "life_page_views": 0,
+      "vehicle_page_views": 0,
+      "general_page_views": 0,
+      "health_time": 240,
+      "life_time": 0,
+      "vehicle_time": 0,
+      "general_time": 0,
+      "total_sessions": 3,
+      "return_visits": 2,
+      "quote_requests": 1,
+      "callback_requests": 1,
+      "chat_count": 1,
+      "doubts": 0,
+      "questions": 1,
+      "risk_score": 25,
+      "previous_agent_failed": false,
+      "language": "English",
+      "customer_message": "I want to purchase a family health insurance plan today."
+    },
+    "prediction": {
+      "domain": "Health",
+      "engagement": "Medium",
+      "willingness": "High",
+      "complexity": "Low",
+      "assigned_agent": "AG107",
+      "required_level": "Intern Agent"
+    },
+    "created_at": "2026-11-04T15:53:29.590188+00:00",
+    "_id": "predictions_1_1793807609"
+  }
+]

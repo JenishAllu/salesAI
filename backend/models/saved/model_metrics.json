@@ -1,0 +1,162 @@
+{
+  "conversation_intent": {
+    "lr": {
+      "accuracy": 1.0,
+      "f1_weighted": 1.0,
+      "precision_weighted": 1.0,
+      "recall_weighted": 1.0
+    },
+    "dt": {
+      "accuracy": 0.773,
+      "f1_weighted": 0.7564,
+      "precision_weighted": 0.8337,
+      "recall_weighted": 0.773
+    },
+    "rf": {
+      "accuracy": 0.9115,
+      "f1_weighted": 0.8843,
+      "precision_weighted": 0.8752,
+      "recall_weighted": 0.9115
+    },
+    "knn": {
+      "accuracy": 0.9875,
+      "f1_weighted": 0.9815,
+      "precision_weighted": 0.9757,
+      "recall_weighted": 0.9875
+    },
+    "ensemble": {
+      "accuracy": 0.9875,
+      "f1_weighted": 0.9815,
+      "precision_weighted": 0.9757,
+      "recall_weighted": 0.9875
+    }
+  },
+  "insurance_domain": {
+    "lr": {
+      "accuracy": 0.9435,
+      "f1_weighted": 0.9433,
+      "precision_weighted": 0.9433,
+      "recall_weighted": 0.9435
+    },
+    "dt": {
+      "accuracy": 0.95,
+      "f1_weighted": 0.9499,
+      "precision_weighted": 0.9505,
+      "recall_weighted": 0.95
+    },
+    "rf": {
+      "accuracy": 0.9547,
+      "f1_weighted": 0.9547,
+      "precision_weighted": 0.9551,
+      "recall_weighted": 0.9547
+    },
+    "knn": {
+      "accuracy": 0.9465,
+      "f1_weighted": 0.9465,
+      "precision_weighted": 0.9466,
+      "recall_weighted": 0.9465
+    },
+    "ensemble": {
+      "accuracy": 0.9557,
+      "f1_weighted": 0.9557,
+      "precision_weighted": 0.956,
+      "recall_weighted": 0.9557
+    }
+  },
+  "customer_engagement": {
+    "lr": {
+      "accuracy": 0.9305,
+      "f1_weighted": 0.9305,
+      "precision_weighted": 0.9305,
+      "recall_weighted": 0.9305
+    },
+    "dt": {
+      "accuracy": 0.8778,
+      "f1_weighted": 0.8772,
+      "precision_weighted": 0.8805,
+      "recall_weighted": 0.8778
+    },
+    "rf": {
+      "accuracy": 0.8952,
+      "f1_weighted": 0.8947,
+      "precision_weighted": 0.8995,
+      "recall_weighted": 0.8952
+    },
+    "knn": {
+      "accuracy": 0.9257,
+      "f1_weighted": 0.9257,
+      "precision_weighted": 0.926,
+      "recall_weighted": 0.9257
+    },
+    "ensemble": {
+      "accuracy": 0.927,
+      "f1_weighted": 0.9269,
+      "precision_weighted": 0.928,
+      "recall_weighted": 0.927
+    }
+  },
+  "purchase_willingness": {
+    "lr": {
+      "accuracy": 0.9543,
+      "f1_weighted": 0.9546,
+      "precision_weighted": 0.9553,
+      "recall_weighted": 0.9543
+    },
+    "dt": {
+      "accuracy": 0.9585,
+      "f1_weighted": 0.9585,
+      "precision_weighted": 0.9585,
+      "recall_weighted": 0.9585
+    },
+    "rf": {
+      "accuracy": 0.9583,
+      "f1_weighted": 0.9588,
+      "precision_weighted": 0.9614,
+      "recall_weighted": 0.9583
+    },
+    "knn": {
+      "accuracy": 0.96,
+      "f1_weighted": 0.9601,
+      "precision_weighted": 0.9602,
+      "recall_weighted": 0.96
+    },
+    "ensemble": {
+      "accuracy": 0.964,
+      "f1_weighted": 0.9642,
+      "precision_weighted": 0.9647,
+      "recall_weighted": 0.964
+    }
+  },
+  "customer_complexity": {
+    "lr": {
+      "accuracy": 0.9615,
+      "f1_weighted": 0.9615,
+      "precision_weighted": 0.9622,
+      "recall_weighted": 0.9615
+    },
+    "dt": {
+      "accuracy": 0.9732,
+      "f1_weighted": 0.9732,
+      "precision_weighted": 0.9737,
+      "recall_weighted": 0.9732
+    },
+    "rf": {
+      "accuracy": 0.9553,
+      "f1_weighted": 0.9555,
+      "precision_weighted": 0.9592,
+      "recall_weighted": 0.9553
+    },
+    "knn": {
+      "accuracy": 0.964,
+      "f1_weighted": 0.9641,
+      "precision_weighted": 0.9647,
+      "recall_weighted": 0.964
+    },
+    "ensemble": {
+      "accuracy": 0.9722,
+      "f1_weighted": 0.9722,
+      "precision_weighted": 0.9731,
+      "recall_weighted": 0.9722
+    }
+  }
+}
