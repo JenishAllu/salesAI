@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, AlertTriangle, AlertOctagon } from 'lucide-react';
+import { Layers, AlertTriangle, AlertOctagon, ShieldAlert, ShieldCheck } from 'lucide-react';
 
 export default function ComplexityCard({ data }) {
   if (!data) return null;
@@ -7,6 +7,7 @@ export default function ComplexityCard({ data }) {
   const {
     complexity_score,
     complexity_level,
+    service_risk,
     main_complexity_factors = [],
     missing_information = [],
     explanation
@@ -23,6 +24,14 @@ export default function ComplexityCard({ data }) {
     Medium: 'badge-amber',
     High: 'badge-red'
   }[complexity_level] || 'badge-green';
+
+  const riskScore = service_risk ? service_risk.risk_score : 20;
+  const riskTier = service_risk ? service_risk.risk_tier : 'Standard Low Risk';
+  const verificationReq = service_risk ? service_risk.verification_requirement : 'Standard KYC Verification';
+  const isHighRisk = riskScore >= 75;
+
+  const riskColor = riskScore >= 75 ? '#ef4444' : riskScore >= 45 ? '#f59e0b' : '#10b981';
+  const riskBg = riskScore >= 75 ? 'rgba(239, 68, 68, 0.15)' : riskScore >= 45 ? 'rgba(245, 158, 11, 0.15)' : 'rgba(16, 185, 129, 0.15)';
 
   return (
     <div className="output-card">
@@ -48,6 +57,49 @@ export default function ComplexityCard({ data }) {
           className="score-bar-fill"
           style={{ width: `${complexity_score}%`, backgroundColor: levelColor }}
         ></div>
+      </div>
+
+      {/* Service & Underwriting Risk Meter */}
+      <div
+        style={{
+          background: 'rgba(15, 23, 42, 0.55)',
+          border: `1px solid ${riskColor}40`,
+          borderRadius: '8px',
+          padding: '0.55rem 0.75rem',
+          marginBottom: '0.65rem'
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.72rem', fontWeight: 600, color: '#e2e8f0' }}>
+            {isHighRisk ? <ShieldAlert size={14} color="#ef4444" /> : <ShieldCheck size={14} color={riskColor} />}
+            <span>Underwriting / Case Risk</span>
+          </div>
+          <span
+            style={{
+              fontSize: '0.68rem',
+              fontWeight: 700,
+              padding: '0.15rem 0.45rem',
+              borderRadius: '9999px',
+              background: riskBg,
+              color: riskColor,
+              border: `1px solid ${riskColor}60`
+            }}
+          >
+            {riskScore}/100 • {riskTier}
+          </span>
+        </div>
+
+        <div className="score-bar-bg" style={{ height: '4px', margin: '0.25rem 0 0.35rem' }}>
+          <div
+            className="score-bar-fill"
+            style={{ width: `${riskScore}%`, backgroundColor: riskColor }}
+          ></div>
+        </div>
+
+        <div style={{ fontSize: '0.68rem', color: '#94a3b8', display: 'flex', justifyContent: 'space-between' }}>
+          <span>Protocol:</span>
+          <span style={{ color: '#cbd5e1', fontWeight: 500 }}>{verificationReq}</span>
+        </div>
       </div>
 
       {/* Complexity Factors */}

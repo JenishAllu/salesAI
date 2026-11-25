@@ -35,7 +35,7 @@ FIELD_DOMAIN_MAP = {
     "chat_count": {"targets": ["Customer Engagement", "Customer Complexity"], "reason": "High chat activity reflects engagement; multiple chats with doubts raise complexity."},
     "doubts": {"targets": ["Customer Complexity"], "reason": "Doubts directly elevate complexity score and product assistance needs."},
     "questions": {"targets": ["Customer Complexity"], "reason": "Questions increase case complexity and need for consultative agents."},
-    "risk_score": {"targets": ["Service / Case Risk"], "reason": "Risk score monitors underwriting or verification risk thresholds."},
+    "risk_score": {"targets": ["Customer Complexity", "Service & Underwriting Risk", "Final Agent Assignment"], "reason": "Risk score directly scales complexity, updates KYC verification tier, and triggers Senior escalation when >= 75."},
     "previous_agent_failed": {"targets": ["Customer Complexity", "Final Agent Assignment"], "reason": "Previous agent failure triggers an immediate mandatory Senior Expert escalation override."},
     "language": {"targets": ["Final Agent Assignment (Agent Matching)"], "reason": "Language preferences filter agent roster for native-language routing."},
     "customer_message": {"targets": ["Conversation Intent NLP", "Purchase Willingness"], "reason": "NLP classifier extracts semantic intent and purchase readiness."}

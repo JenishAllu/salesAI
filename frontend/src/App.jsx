@@ -141,6 +141,19 @@ export default function App() {
     runPrediction(customer, previousCustomerRef.current, previousPredictionRef.current);
   };
 
+  // Load an escalated or historical customer into the live simulator
+  const handleLoadCustomerInSimulator = (custData) => {
+    setActiveScenarioId(null);
+    const updated = { ...DEFAULT_CUSTOMER, ...custData };
+    setCustomer(updated);
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    runPrediction(updated, customer, predictionData);
+    previousCustomerRef.current = updated;
+    fetchAgents().then(setAgents).catch(console.warn);
+  };
+
   return (
     <div className="app-container">
       {/* Navbar */}
@@ -205,8 +218,12 @@ export default function App() {
       {/* Modals */}
       <AgentRosterModal
         isOpen={isAgentsOpen}
-        onClose={() => setIsAgentsOpen(false)}
+        onClose={() => {
+          setIsAgentsOpen(false);
+          fetchAgents().then(setAgents).catch(console.warn);
+        }}
         agents={agents}
+        onLoadCustomerInSimulator={handleLoadCustomerInSimulator}
       />
 
       <MetricsModal

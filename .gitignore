@@ -53,3 +53,15 @@ yarn-error.log*
 # OS Files
 .DS_Store
 Thumbs.db
+
+SYSTEM_DOCUMENTATION.md
+/docs/
+/MAJOR_PROJECT_REPORT.*
+*.doc
+*.docx
+*.pdf
+*.ppt
+*.pptx
+*.xls
+*.xlsx
+

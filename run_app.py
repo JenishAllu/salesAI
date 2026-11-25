@@ -22,7 +22,7 @@ from backend.app import app
 
 if __name__ == "__main__":
     print("=" * 70)
-    print("  [SALESINTERNAI] DYNAMIC AI CUSTOMER CLASSIFICATION & ROUTING")
+    print("  [SALESINTELAI] DYNAMIC AI CUSTOMER CLASSIFICATION & ROUTING")
     print("=" * 70)
     print("  Full-Stack Application is running on: http://127.0.0.1:5000")
     print("  API Endpoints active at:              http://127.0.0.1:5000/api")

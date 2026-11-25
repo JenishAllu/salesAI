@@ -411,10 +411,28 @@ class RoutingEngine:
 
         cats_active = sum([h_v > 0, l_v > 0, v_v > 0, g_v > 0])
 
+        # Service & Underwriting Risk Assessment (PART 3 Item 19 & PART 8)
+        if risk < 35:
+            risk_tier = "Standard Low Risk"
+            verification_level = "Standard KYC Verification"
+        elif risk < 65:
+            risk_tier = "Moderate Underwriting Risk"
+            verification_level = "Enhanced Document Verification"
+        elif risk < 75:
+            risk_tier = "Elevated Case Risk"
+            verification_level = "Expert Underwriter Review"
+        else:
+            risk_tier = "Critical High Risk"
+            verification_level = "Senior Underwriter Clearance & Tele-Medical Sign-off"
+
         # Complexity Factors & Missing Information
         factors = []
         if prev_failed:
             factors.append("Previous agent interaction failed (Immediate escalation risk)")
+        if risk >= 75:
+            factors.append(f"Critical service risk ({risk}/100 - requires senior underwriting clearance)")
+        elif risk >= 45:
+            factors.append(f"Elevated service/case risk assessment ({risk}/100)")
         if cats_active > 1:
             factors.append(f"Cross-category interest across {cats_active} distinct domains")
         if doubts >= 3:
@@ -423,8 +441,6 @@ class RoutingEngine:
             factors.append(f"High inquiry volume ({questions} product questions)")
         if chats >= 4:
             factors.append(f"Substantial chat volume ({chats} sessions)")
-        if risk >= 60:
-            factors.append(f"High case risk score ({risk}/100)")
 
         missing_info = []
         if data.get("monthly_income") is None or str(data.get("monthly_income")) in ["", "nan"]:
@@ -455,13 +471,14 @@ class RoutingEngine:
         conf = float(probs[top_idx])
 
         # Calculated Complexity Score (0-100)
-        # Category count: 20, Doubts: 25, Questions: 25, Prev Failed: 20, Chat: 10
+        # Category count: 15, Doubts: 20, Questions: 20, Prev Failed: 20, Chat: 10, Risk Score: 15
         score = (
-            min(max(cats_active - 1, 0) / 2.0, 1.0) * 20 +
-            min(doubts / 5.0, 1.0) * 25 +
-            min(questions / 6.0, 1.0) * 25 +
+            min(max(cats_active - 1, 0) / 2.0, 1.0) * 15 +
+            min(doubts / 5.0, 1.0) * 20 +
+            min(questions / 6.0, 1.0) * 20 +
             (20 if prev_failed else 0) +
-            min(chats / 6.0, 1.0) * 10
+            min(chats / 6.0, 1.0) * 10 +
+            min(risk / 100.0, 1.0) * 15
         )
         score = round(min(max(score, 0), 100), 1)
 
@@ -472,14 +489,14 @@ class RoutingEngine:
         else:
             level = "High"
 
-        # Explicit overrides: previous agent failed or very high doubts/questions forces High
-        if prev_failed or (doubts >= 5 and questions >= 6):
+        # Explicit overrides: previous agent failed, high friction, or critical risk >= 75 forces High
+        if prev_failed or (doubts >= 5 and questions >= 6) or risk >= 75:
             level = "High"
             score = max(score, 70.0)
 
         explanation = (
-            f"Complexity level is {level} ({score}/100). "
-            f"{'Key drivers: ' + '; '.join(factors) if factors else 'Standard straightforward single-line policy request.'}"
+            f"Complexity level is {level} ({score}/100) with {risk_tier} ({risk}/100, {verification_level}). "
+            f"{'Key drivers: ' + '; '.join(factors) if factors else 'Standard straightforward policy request.'}"
         )
 
         individual_preds = {}
@@ -491,6 +508,12 @@ class RoutingEngine:
             "complexity_level": level,
             "ml_level": ml_level,
             "confidence": round(conf, 3),
+            "service_risk": {
+                "risk_score": risk,
+                "risk_tier": risk_tier,
+                "verification_requirement": verification_level,
+                "requires_senior_clearance": risk >= 75
+            },
             "main_complexity_factors": factors,
             "missing_information": missing_info,
             "explanation": explanation,
@@ -500,7 +523,7 @@ class RoutingEngine:
     # ------------------------------------------------------------------
     # 6. FINAL AGENT ASSIGNMENT ENGINE
     # ------------------------------------------------------------------
-    def assign_agent(self, data, domain_res, eng_res, will_res, comp_res):
+    def assign_agent(self, data, domain_res, eng_res, will_res, comp_res, intent_res=None):
         will_lvl = will_res["willingness_level"]
         comp_lvl = comp_res["complexity_level"]
         prev_failed = bool(data.get("previous_agent_failed", False))
@@ -509,22 +532,91 @@ class RoutingEngine:
         if domain == "Unknown":
             domain = "General"
 
-        # Decision Matrix & Override Resolution (PART 8 & PART 9)
+        intent = ""
+        if intent_res and isinstance(intent_res, dict):
+            intent = intent_res.get("predicted_intent", "")
+        if not intent:
+            intent = str(data.get("customer_message", "")).strip()
+
+        doubts = int(data.get("doubts", 0))
+        questions = int(data.get("questions", 0))
+        risk = int(data.get("risk_score", 20))
+
+        h_v = int(data.get("health_page_views", 0))
+        l_v = int(data.get("life_page_views", 0))
+        v_v = int(data.get("vehicle_page_views", 0))
+        g_v = int(data.get("general_page_views", 0))
+        cats_active = sum([h_v > 0, l_v > 0, v_v > 0, g_v > 0])
+
         escalation_triggered = False
         escalation_reason = ""
+        routing_strategy = ""
 
+        # Real-World Operational Routing Hierarchy:
+        # 1. HARD COMPLEX / ESCALATED -> Senior Expert Agent
+        # In real-world insurance platforms, Senior Agents handle escalations, churn recovery, and high-complexity underwriting.
         if prev_failed:
             required_level = AGENT_LEVELS["SENIOR"]
             escalation_triggered = True
-            escalation_reason = "Overridden to Senior Expert Agent: Previous agent interaction failed."
-        elif comp_lvl == "High":
+            routing_strategy = "Senior Advisory & De-escalation"
+            escalation_reason = "Senior Escalation: Previous agent interaction failed. Immediate routing to Senior Expert Agent for churn prevention, trust recovery, and VIP resolution."
+        elif comp_lvl == "High" or risk >= 75:
             required_level = AGENT_LEVELS["SENIOR"]
             escalation_triggered = True
-            escalation_reason = "Routed to Senior Expert Agent: High case complexity requires senior specialist."
+            routing_strategy = "Senior Advisory & Risk Underwriting" if risk >= 75 else "Senior Advisory & Underwriting"
+            comp_score = comp_res.get("complexity_score", 60)
+            factors_summary = f"{len(comp_res.get('main_complexity_factors', []))} friction factors"
+            if risk >= 75:
+                escalation_reason = f"Senior Escalation: Critical case risk assessment ({risk}/100) exceeds underwriting clearance threshold. Routed to Senior Expert Agent for senior risk appraisal and policy sign-off."
+            else:
+                escalation_reason = f"Senior Expert Assignment: Hard complex customer case (Complexity: {comp_score}/100, {factors_summary}). Routed to Senior Expert Agent with senior underwriting authority."
+
+        # 2. FULLY WILLING BUYER -> Intern Agent
+        # In real-world sales operations, when a customer is fully willing to purchase straightforward plans
+        # (up to 2 domains, e.g., Health & Life bundle) with low risk (<= 35), entry-level Intern Agents handle rapid transactional
+        # fulfillment, KYC documentation, and payment without wasting senior advisory capacity.
+        elif (
+            (will_lvl == "High" or will_res.get("willingness_score", 0) >= 65 or intent == "Ready to buy")
+            and comp_lvl == "Low"
+            and cats_active <= 2
+            and doubts <= 1
+            and questions <= 2
+            and risk <= 35
+            and not prev_failed
+        ):
+            required_level = AGENT_LEVELS["INTERN"]
+            escalation_triggered = False
+            routing_strategy = "Direct Transaction Fulfillment"
+            cats_note = f"{cats_active}-domain bundle" if cats_active == 2 else "single-domain policy"
+            escalation_reason = f"Direct Transaction Fulfillment: Customer is fully willing to purchase straightforward {cats_note} with low risk profile ({risk}/100). Assigned to Intern Agent for rapid policy binding, KYC verification, and frictionless checkout."
+
+        # 3. HIGH INTEREST / CONSULTATIVE ADVISORY -> Expert Agent
+        # When customer has broad interest across 3+ categories, moderate complexity, inquiries, hesitations, or moderate risk (36-74),
+        # an Expert Agent handles consultative comparison and objection handling to close the deal.
         else:
-            # Query the central Decision Matrix
-            required_level = DECISION_MATRIX.get((will_lvl, comp_lvl), AGENT_LEVELS["EXPERT"])
-            escalation_reason = f"Decision Matrix ({will_lvl} Willingness x {comp_lvl} Complexity) -> {required_level}."
+            required_level = AGENT_LEVELS["EXPERT"]
+            escalation_triggered = False
+            if risk >= 45:
+                routing_strategy = "Consultative Sales & Risk Verification"
+                escalation_reason = f"Risk Verification Advisory: Elevated case risk score ({risk}/100) requires policy underwriting guidance. Routed to Expert Agent for risk assessment and coverage validation."
+            elif cats_active > 2:
+                routing_strategy = "Consultative Sales & Objection Handling"
+                escalation_reason = f"Consultative Advisory: Customer demonstrates broad multi-category interest across {cats_active} insurance domains. Routed to Expert Agent for comparative analysis and consultative conversion."
+            elif cats_active == 2 and will_lvl != "High":
+                routing_strategy = "Consultative Sales & Objection Handling"
+                escalation_reason = "Consultative Advisory: Customer is exploring 2 insurance domains with consultative questions. Routed to Expert Agent for cross-plan comparison and guidance."
+            elif intent in ["Price objection", "Trust objection"]:
+                routing_strategy = "Consultative Sales & Objection Handling"
+                escalation_reason = f"Consultative Conversion: Customer exhibits active interest but raised a {intent.lower()}. Routed to Expert Agent for consultative objection handling and value presentation."
+            elif intent in ["Needs guidance", "Interested"] or questions >= 2:
+                routing_strategy = "Consultative Sales & Objection Handling"
+                escalation_reason = f"Consultative Advisory: Customer is actively researching options with high inquiry volume ({questions} questions). Routed to Expert Agent for personalized coverage recommendations."
+            elif eng_res.get("engagement_level") == "High" or eng_res.get("engagement_score", 0) >= 60:
+                routing_strategy = "Consultative Sales & Objection Handling"
+                escalation_reason = f"Consultative Advisory: Customer demonstrates high exploratory interest (Engagement score: {eng_res.get('engagement_score')}/100). Routed to Expert Agent to convert active engagement into purchase willingness."
+            else:
+                routing_strategy = "Consultative Sales & Objection Handling"
+                escalation_reason = f"Consultative Advisory: Customer exhibits active product interest. Routed to Expert Agent for consultative guidance."
 
         # Intelligent Roster Match
         agent_match = match_agent(required_level, domain, lang)
@@ -540,6 +632,7 @@ class RoutingEngine:
 
         return {
             "required_agent_level": required_level,
+            "routing_strategy": routing_strategy,
             "escalation_triggered": escalation_triggered,
             "escalation_reason": escalation_reason,
             "assigned_agent": agent_match,
@@ -566,7 +659,7 @@ class RoutingEngine:
         complexity_res = self.predict_complexity(customer_data)
 
         # 6. Final Agent Assignment
-        routing_res = self.assign_agent(customer_data, domain_res, engagement_res, willingness_res, complexity_res)
+        routing_res = self.assign_agent(customer_data, domain_res, engagement_res, willingness_res, complexity_res, intent_res)
 
         return {
             "domain_prediction": domain_res,

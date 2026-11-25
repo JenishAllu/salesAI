@@ -78,6 +78,22 @@ export async function fetchAgents() {
   return json.agents;
 }
 
+export async function fetchAgentHistory(agentId) {
+  const res = await fetch(`${API_BASE}/agents/${agentId}/history`);
+  if (!res.ok) throw new Error(`Failed to load history for agent ${agentId}`);
+  return await res.json();
+}
+
+export async function submitAgentOutcome(agentId, caseId, outcome, notes = '') {
+  const res = await fetch(`${API_BASE}/agents/${agentId}/outcome`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ case_id: caseId, outcome, notes })
+  });
+  if (!res.ok) throw new Error(`Failed to update outcome for case ${caseId}`);
+  return await res.json();
+}
+
 export async function submitFeedback(feedback) {
   const res = await fetch(`${API_BASE}/feedback`, {
     method: 'POST',

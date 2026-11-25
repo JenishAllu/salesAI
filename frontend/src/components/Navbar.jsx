@@ -14,7 +14,7 @@ export default function Navbar({
       <div className="brand-section">
         <div className="brand-logo">🛡️</div>
         <div>
-          <h1 className="brand-title">salesInternAi</h1>
+          <h1 className="brand-title">salesIntelAi</h1>
           <p className="brand-subtitle">Dynamic 5-Stage Customer Classification & Intelligent Agent Routing</p>
         </div>
       </div>

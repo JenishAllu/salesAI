@@ -52,11 +52,12 @@ body {
   background: #3b82f6;
 }
 
-/* App Container */
+/* App Container - Full Screen Width Left and Right */
 .app-container {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 1.25rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.85rem 1.5rem;
 }
 
 /* Header Navbar */
@@ -238,11 +239,18 @@ body {
   text-transform: uppercase;
 }
 
-/* Main Dashboard Grid */
+/* Main Dashboard Grid - Responsive Full-Screen */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 460px 1fr;
+  grid-template-columns: 480px 1fr;
   gap: 1.25rem;
+  width: 100%;
+}
+
+@media (min-width: 1600px) {
+  .dashboard-grid {
+    grid-template-columns: 520px 1fr;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -714,9 +722,9 @@ input:checked + .slider:before {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  width: 100%;
-  max-width: 900px;
-  max-height: 85vh;
+  width: 96vw;
+  max-width: 1400px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
